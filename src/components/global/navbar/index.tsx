@@ -3,6 +3,8 @@ import { NAVIGATIONS } from "@/constants";
 import { Instagram } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "../mode-toggle";
+import Image from "next/image";
+// import { siteLogo } from "../../../../public/images";
 
 type Props = {};
 
@@ -12,8 +14,8 @@ const Navbar = (props: Props) => {
 
       <div className="flex px-5 py-3 justify-between">
         <div className="flex mt-2  gap-16 xs:gap-10">
-          <div>
-            <h1>Logo</h1>
+          <div >
+          <h1 className="text-2xl font-bold"> Opexn</h1>
           </div>
           <div className="flex gap-5">
             {NAVIGATIONS.map((navigation) => (
@@ -33,7 +35,7 @@ const Navbar = (props: Props) => {
             <a href={`/www.instagram.com`} className="mt-[7px]">
               <Instagram />
             </a>
-         
+
 
           <Separator orientation="vertical" />
 
