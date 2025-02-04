@@ -1,52 +1,35 @@
-import { Separator } from "@/components/ui/separator";
-import { NAVIGATIONS } from "@/constants";
-import { Instagram } from "lucide-react";
 import Link from "next/link";
+
+import { siteConfig } from "@/config/site";
+import { Button } from "@/components/ui/button";
+import { TwitterIcon } from "lucide-react";
+import { MainNav } from "./main-nav";
+import { MobileNav } from "./mobile-nav";
 import { ModeToggle } from "../mode-toggle";
-import Image from "next/image";
-// import { siteLogo } from "../../../../public/images";
+import { Separator } from "@/components/ui/separator";
 
-type Props = {};
 
-const Navbar = (props: Props) => {
+export const Navbar = () =>  {
   return (
-    <div className="w-full min-h-12">
-
-      <div className="flex px-5 py-3 justify-between">
-        <div className="flex mt-2  gap-16 xs:gap-10">
-          <div >
-          <h1 className="text-2xl font-bold"> Opexn</h1>
+    <header className="border-grid sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container-wrapper">
+        <div className="container flex h-14 items-center">
+          <MainNav />
+          <MobileNav />
+          <div className="flex flex-1 items-center justify-between gap-2 md:justify-end">
+            <div className="w-full flex-1 md:w-auto md:flex-none">{/* <CommandMenu /> */}</div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="icon" className="h-[36px] w-[35px] px-0 ">
+                <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer">
+                  <TwitterIcon />
+                  <span className="sr-only">Twitter</span>
+                </Link>
+              </Button>
+              <ModeToggle />
+            </div>
           </div>
-          <div className="flex gap-5">
-            {NAVIGATIONS.map((navigation) => (
-              <Link
-                key={navigation.id}
-                href={`{navigation.link}`}
-                className="hover:underline"
-              >
-                {navigation.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex gap-5 ">
-
-            <a href={`/www.instagram.com`} className="mt-[7px]">
-              <Instagram />
-            </a>
-
-
-          <Separator orientation="vertical" />
-
-          <ModeToggle />
         </div>
       </div>
-
-      <Separator orientation="horizontal" className="px-5" />
-
-    </div>
+    </header>
   );
-};
-
-export default Navbar;
+}
