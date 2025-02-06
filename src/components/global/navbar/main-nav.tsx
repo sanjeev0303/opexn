@@ -15,9 +15,9 @@ export const MainNav = () => {
   return (
     <div className="mr-4 hidden md:flex">
       <Link href="/" className="mr-4 flex items-center gap-2 lg:mr-6">
-        {/* <LayoutDashboard className="size-6" /> */}
-        <Image src="/images/opexn_logo.png" alt="Main logo" className="h-14 w-auto object-contain" width={30} height={25} />
-        {/* <span className="hidden font-bold lg:inline-block">{siteConfig.name}</span> */}
+
+        <Image src="/images/opexn_logo.png" alt="Main logo" className="h-14 w-auto object-contain" width={40} height={35} />
+        
       </Link>
       <nav className="flex items-center gap-4 text-sm xl:gap-6">
         {siteLinks.mainNav.map(

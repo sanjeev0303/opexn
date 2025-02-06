@@ -1,4 +1,5 @@
 
+import ExihibitionCard from '@/components/global/exihibition-card'
 import { HeroSlider } from '@/components/global/home'
 import React from 'react'
 
@@ -8,6 +9,7 @@ const HomePage = (props: Props) => {
   return (
     <section>
         <HeroSlider />
+        <ExihibitionCard />
     </section>
   )
 }
