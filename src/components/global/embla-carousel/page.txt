@@ -13,11 +13,9 @@ import { useAutoplay } from "./embla-carousel-autoplay";
 import { useAutoplayProgress } from "./embla-carousel-autoplay-progress";
 import ClassNames from "embla-carousel-class-names";
 import { Button } from "@/components/ui/button";
-import clsx from "clsx";
 
 type PropType = {
   slides: {
-    id: number;
     src: string;
     heading: string;
     subHeading: string;
@@ -29,7 +27,7 @@ const TWEEN_FACTOR_BASE = 0.2;
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props;
   const progressNode = useRef<HTMLDivElement>(null);
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({ playOnInit: true, delay: 4000 }), ClassNames()]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({ playOnInit: true, delay: 3000 }), ClassNames()]);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
 
@@ -102,67 +100,67 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, tweenParallax]);
 
   return (
-    <div className="embla relative">
+    <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
-        <div className={clsx("embla__container")}>
-          {slides.map((item) => (
-            <div className="embla__slide lg:p-20 relative group" key={item.id}>
-              <div className="absolute z-10 left-19 top-8 w-full text-sm font-semibold text-primary-foreground md:text-base lg:font-thin lg:text-5xl  lg:w-[70%] lg:text-wrap text-white ">
-                <h1
-                >{item.heading}</h1>
-              </div>
-                  <div>
-                    <div>
-                    <div className="embla__parallax">
-                    <div className="embla__parallax__layer">
-                      <Image
-                        src={item.src}
-                        width={1080}
-                        height={720}
-                        className="h-auto w-full select-none rounded-md object-cover"
-                        priority
-                        alt={item.heading}
-                      />
-
-                      <div
-                        className={clsx(
-                          "overlay z-9 absolute bottom-full left-0 right-4 bg-gradient-to-b from-black/75 to-black/0  overflow-hidden w-full h-0 group-hover:bottom-0 group-hover:h-full transition-all duration-500 "
-                        )}
-                      >
-                        <div>
-                          <h1 className="lg:text-2xl absolute lg:top-24 left-8">
-                            {item.subHeading}
-                          </h1>
-                        </div>
-                        </div>
-                        </div>
-                      </div>
-                    {/* </div>
-                  </div> */}
+        <div className="embla__container">
+          {slides.map((slide, index) => (
+            <div className="embla__slide" key={index}>
+              {/* <div className="embla__slide__number">
+              </div> */}
+              <div className="embla__parallax">
+                <div className="embla__parallax__layer">
+                  <div className="absolute left-0 top-5 w-full bg-primary/30 p-2 text-sm font-semibold text-primary-foreground md:text-base lg:text-xl">
+                    <p>{slide.heading}</p>
+                    <p>{slide.subHeading}</p>
+                  </div>
+                  <Image
+                    src={slide.src}
+                    width={1080}
+                    height={720}
+                    className="h-auto w-full select-none rounded-md object-cover"
+                    priority
+                    alt={slide.heading}
+                  />
                 </div>
               </div>
-
             </div>
           ))}
         </div>
       </div>
 
+      <div className="embla__controls">
+
+
+        <div className={cn("embla__progress", !showAutoplayProgress && "embla__progress--hidden")}>
+          <div className="embla__progress__bar" ref={progressNode} />
+        </div>
+
+      </div>
       <div className="embla__buttons">
-        <button
+        <Button
+          size="icon"
+          variant="outline"
           onClick={() => onAutoplayButtonClick(onPrevButtonClick)}
           disabled={prevBtnDisabled}
         >
-          <ChevronLeft size={24} />
-        </button>
-        <button
+          <ChevronLeft />
+        </Button>
+        <Button
+          size="icon"
+          variant="outline"
           onClick={() => onAutoplayButtonClick(onNextButtonClick)}
           disabled={nextBtnDisabled}
         >
-          <ChevronRight size={24} />
-        </button>
-        <button onClick={toggleAutoplay} type="button">
-          {autoplayIsPlaying ? <Pause size={20} /> : <Play size={20} />}
-        </button>
+          <ChevronRight />
+        </Button>
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={toggleAutoplay}
+          type="button"
+        >
+          {autoplayIsPlaying ? <Pause /> : <Play />}
+        </Button>
       </div>
     </div>
   );
