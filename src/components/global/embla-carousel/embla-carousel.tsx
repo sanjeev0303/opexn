@@ -1,19 +1,22 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carousel";
+import clsx from "clsx";
+import {
+  EmblaCarouselType,
+  EmblaEventType,
+  EmblaOptionsType,
+} from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
+import ClassNames from "embla-carousel-class-names";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React, { useCallback, useEffect, useRef } from "react";
-// import { Button } from "../ui/button";
 import { usePrevNextButtons } from "./embla-carousel-arrow-buttons";
 import { useAutoplay } from "./embla-carousel-autoplay";
 import { useAutoplayProgress } from "./embla-carousel-autoplay-progress";
-import ClassNames from "embla-carousel-class-names";
-import { Button } from "@/components/ui/button";
-import clsx from "clsx";
+import { motion } from "motion/react";
+import { div } from "motion/react-client";
 
 type PropType = {
   slides: {
@@ -29,13 +32,22 @@ const TWEEN_FACTOR_BASE = 0.2;
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props;
   const progressNode = useRef<HTMLDivElement>(null);
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({ playOnInit: true, delay: 4000 }), ClassNames()]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
+    Autoplay({ playOnInit: true, delay: 3000 }),
+    ClassNames(),
+  ]);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
 
-  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi);
 
-  const { autoplayIsPlaying, toggleAutoplay, onAutoplayButtonClick } = useAutoplay(emblaApi);
+  const { autoplayIsPlaying, toggleAutoplay, onAutoplayButtonClick } =
+    useAutoplay(emblaApi);
 
   const { showAutoplayProgress } = useAutoplayProgress(emblaApi, progressNode);
 
@@ -49,42 +61,45 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
   }, []);
 
-  const tweenParallax = useCallback((emblaApi: EmblaCarouselType, eventName?: EmblaEventType) => {
-    const engine = emblaApi.internalEngine();
-    const scrollProgress = emblaApi.scrollProgress();
-    const slidesInView = emblaApi.slidesInView();
-    const isScrollEvent = eventName === "scroll";
+  const tweenParallax = useCallback(
+    (emblaApi: EmblaCarouselType, eventName?: EmblaEventType) => {
+      const engine = emblaApi.internalEngine();
+      const scrollProgress = emblaApi.scrollProgress();
+      const slidesInView = emblaApi.slidesInView();
+      const isScrollEvent = eventName === "scroll";
 
-    emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-      let diffToTarget = scrollSnap - scrollProgress;
-      const slidesInSnap = engine.slideRegistry[snapIndex];
+      emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
+        let diffToTarget = scrollSnap - scrollProgress;
+        const slidesInSnap = engine.slideRegistry[snapIndex];
 
-      slidesInSnap.forEach((slideIndex) => {
-        if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
+        slidesInSnap.forEach((slideIndex) => {
+          if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
 
-        if (engine.options.loop) {
-          engine.slideLooper.loopPoints.forEach((loopItem) => {
-            const target = loopItem.target();
+          if (engine.options.loop) {
+            engine.slideLooper.loopPoints.forEach((loopItem) => {
+              const target = loopItem.target();
 
-            if (slideIndex === loopItem.index && target !== 0) {
-              const sign = Math.sign(target);
+              if (slideIndex === loopItem.index && target !== 0) {
+                const sign = Math.sign(target);
 
-              if (sign === -1) {
-                diffToTarget = scrollSnap - (1 + scrollProgress);
+                if (sign === -1) {
+                  diffToTarget = scrollSnap - (1 + scrollProgress);
+                }
+                if (sign === 1) {
+                  diffToTarget = scrollSnap + (1 - scrollProgress);
+                }
               }
-              if (sign === 1) {
-                diffToTarget = scrollSnap + (1 - scrollProgress);
-              }
-            }
-          });
-        }
+            });
+          }
 
-        const translate = diffToTarget * (-1 * tweenFactor.current) * 100;
-        const tweenNode = tweenNodes.current[slideIndex];
-        tweenNode.style.transform = `translateX(${translate}%)`;
+          const translate = diffToTarget * (-1 * tweenFactor.current) * 100;
+          const tweenNode = tweenNodes.current[slideIndex];
+          tweenNode.style.transform = `translateX(${translate}%)`;
+        });
       });
-    });
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -102,67 +117,55 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, tweenParallax]);
 
   return (
-    <div className="embla relative">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className={clsx("embla__container")}>
-          {slides.map((item) => (
-            <div className="embla__slide lg:p-20 relative group" key={item.id}>
-              <div className="absolute z-10 left-19 top-8 w-full text-sm font-semibold text-primary-foreground md:text-base lg:font-thin lg:text-5xl  lg:w-[70%] lg:text-wrap text-white ">
-                <h1
-                >{item.heading}</h1>
-              </div>
-                  <div>
-                    <div>
-                    <div className="embla__parallax">
-                    <div className="embla__parallax__layer">
-                      <Image
-                        src={item.src}
-                        width={1080}
-                        height={720}
-                        className="h-auto w-full select-none rounded-md object-cover"
-                        priority
-                        alt={item.heading}
-                      />
+    <div className="h-screen w-full relative">
+      <div className={clsx("embla", "absolute top-28")}>
+        <div className="embla__viewport" ref={emblaRef}>
+          <div className="embla__container">
+            {slides.map((item) => (
+              <div
+                className={clsx("embla__slide", "px-24 group/card group/text")}
+                key={item.id}
+              >
+                <div className="embla__parallax">
+                  <div className={clsx("embla__parallax__layer")}>
+                    <img
+                      className="embla__slide__img embla__parallax__img"
+                      src={item.src}
+                      alt="Your alt text"
+                    />
 
-                      <div
-                        className={clsx(
-                          "overlay z-9 absolute bottom-full left-0 right-4 bg-gradient-to-b from-black/75 to-black/0  overflow-hidden w-full h-0 group-hover:bottom-0 group-hover:h-full transition-all duration-500 "
-                        )}
-                      >
-                        <div>
-                          <h1 className="lg:text-2xl absolute lg:top-24 left-8">
-                            {item.subHeading}
-                          </h1>
-                        </div>
-                        </div>
-                        </div>
-                      </div>
-                    {/* </div>
-                  </div> */}
+                    <div className="absolute w-full h-full top-0 left-0 transition duration-500 group-hover/card:bg-black opacity-60"></div>
+
+                    <div
+                      className="absolute opacity-0 top-28 left-2 text-xl text-white
+        group-hover/text:opacity-[100%]
+        "
+                    >
+                      {item.subHeading}
+                    </div>
+                  </div>
                 </div>
               </div>
-
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-
-      <div className="embla__buttons">
-        <button
-          onClick={() => onAutoplayButtonClick(onPrevButtonClick)}
-          disabled={prevBtnDisabled}
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={() => onAutoplayButtonClick(onNextButtonClick)}
-          disabled={nextBtnDisabled}
-        >
-          <ChevronRight size={24} />
-        </button>
-        <button onClick={toggleAutoplay} type="button">
-          {autoplayIsPlaying ? <Pause size={20} /> : <Play size={20} />}
-        </button>
+        <div className="embla__buttons">
+          <button
+            onClick={() => onAutoplayButtonClick(onPrevButtonClick)}
+            disabled={prevBtnDisabled}
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={() => onAutoplayButtonClick(onNextButtonClick)}
+            disabled={nextBtnDisabled}
+          >
+            <ChevronRight size={24} />
+          </button>
+          <button onClick={toggleAutoplay} type="button">
+            {autoplayIsPlaying ? <Pause size={20} /> : <Play size={20} />}
+          </button>
+        </div>
       </div>
     </div>
   );

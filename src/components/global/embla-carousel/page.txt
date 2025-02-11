@@ -167,3 +167,29 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 };
 
 export default EmblaCarousel;
+
+
+
+
+
+
+
+
+
+<div className="absolute z-10 left-19 top-8 w-full text-sm font-semibold text-primary-foreground md:text-base lg:font-thin lg:text-5xl  lg:w-[70%] lg:text-wrap text-white ">
+                <h1
+                >{item.heading}</h1>
+              </div>
+              <div
+                        className={clsx(
+                          "overlay z-9 absolute bottom-full left-0 right-4 bg-gradient-to-b from-black/75 to-black/0  overflow-hidden w-full h-0 group-hover:bottom-0 group-hover:h-full transition-all duration-500 "
+                        )}
+                      >
+                        <div>
+                          <h1 className="lg:text-2xl absolute lg:top-24 left-8">
+                            {item.subHeading}
+                          </h1>
+                        {/* </div>
+                        </div> */}
+                        </div>
+                      </div>

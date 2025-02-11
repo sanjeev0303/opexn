@@ -4,8 +4,8 @@ import { ArrowRight } from "lucide-react";
 
 const ExihibitionCard = () => {
   return (
-    <div className="relative lg:mt-14 mt-10  flex justify-center items-center flex-col overflow-hidden">
-      <h1 className="lg:text-6xl text-4xl mt-10 font-bold">Exhibition Now</h1>
+    <div className="relative  flex justify-center items-center flex-col overflow-hidden">
+      <h1 className="lg:text-6xl text-4xl font-bold">Exhibition Now</h1>
       <div className="">
         {EXHIBITIONS.map((item) => (
           <div key={item.id}>
