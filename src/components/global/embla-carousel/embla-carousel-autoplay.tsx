@@ -7,6 +7,7 @@ type UseAutoplayType = {
   autoplayIsPlaying: boolean;
   toggleAutoplay: () => void;
   onAutoplayButtonClick: (callback: () => void) => void;
+  hoverAutoplay: () => void;
 };
 
 export const useAutoplay = (emblaApi: EmblaCarouselType | undefined): UseAutoplayType => {
@@ -33,6 +34,18 @@ export const useAutoplay = (emblaApi: EmblaCarouselType | undefined): UseAutopla
     playOrStop();
   }, [emblaApi]);
 
+  const hoverAutoplay = useCallback(() => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+
+    const handleMouseEnter = () => autoplay.stop();
+    const handleMouseLeave = () => autoplay.play();
+
+    emblaApi.containerNode().addEventListener("mouseenter", handleMouseEnter);
+    emblaApi.containerNode().addEventListener("mouseleave", handleMouseLeave);
+}, [emblaApi]);
+
+
   useEffect(() => {
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
@@ -48,5 +61,6 @@ export const useAutoplay = (emblaApi: EmblaCarouselType | undefined): UseAutopla
     autoplayIsPlaying,
     toggleAutoplay,
     onAutoplayButtonClick,
+    hoverAutoplay,
   };
 };

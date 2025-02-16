@@ -40,6 +40,7 @@ export const useAutoplayProgress = <ProgressElement extends HTMLElement>(
     setShowAutoplayProgress(true);
   }, [progressNode]);
 
+
   useEffect(() => {
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;

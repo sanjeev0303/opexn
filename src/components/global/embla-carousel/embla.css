@@ -1,9 +1,9 @@
 .embla {
-    max-width: 130vw;
+    max-width: 140vw;
     /* margin:auto; */
     /* margin-top: 10%; */
     --slide-height: 65vh;
-    --slide-spacing: 6rem;
+    /* --slide-spacing: 6rem; */
     --slide-size: 80%;
     position: relative;
   }
@@ -19,8 +19,6 @@
     transform: translate3d(0, 0, 0);
     flex: 0 0 var(--slide-size);
     min-width: 0;
-    padding-left: var(--slide-spacing);
-    padding-right: var(--slide-spacing);
   }
   .embla__slide__img {
     display: block;
@@ -57,7 +55,7 @@
     display: flex;
     position: absolute;
     bottom: 0%;
-    right: 14%;
+    right: 12%;
     flex-direction: column;
     align-items: center;
     justify-items: center;
@@ -145,14 +143,13 @@
   left: -100%;
 }
 
+.embla__progress {
+    justify-self: center;
+    transition: opacity 0.3s ease-in-out;
+    width: 8rem;
+}
 .embla__controls {
   grid-template-columns: auto 1fr auto;
-}
-
-.embla__progress {
-  justify-self: center;
-  transition: opacity 0.3s ease-in-out;
-  width: 8rem;
 }
 
 .embla__progress--hidden {
@@ -190,6 +187,7 @@
 .embla__parallax {
     height: 100%;
     overflow: hidden;
+
 }
 .embla__parallax__layer {
     position: relative;

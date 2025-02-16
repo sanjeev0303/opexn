@@ -2,9 +2,9 @@
 
 import clsx from "clsx";
 import {
-  EmblaCarouselType,
-  EmblaEventType,
-  EmblaOptionsType,
+    EmblaCarouselType,
+    EmblaEventType,
+    EmblaOptionsType,
 } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import ClassNames from "embla-carousel-class-names";
@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { usePrevNextButtons } from "./embla-carousel-arrow-buttons";
 import { useAutoplay } from "./embla-carousel-autoplay";
 import { useAutoplayProgress } from "./embla-carousel-autoplay-progress";
+import { cn } from "@/lib/utils";
 
 type PropType = {
   slides: {
@@ -44,10 +45,10 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
 
-  const { autoplayIsPlaying, toggleAutoplay, onAutoplayButtonClick } =
+  const { autoplayIsPlaying, toggleAutoplay, onAutoplayButtonClick, hoverAutoplay } =
     useAutoplay(emblaApi);
 
-  useAutoplayProgress(emblaApi, progressNode);
+  const { showAutoplayProgress } = useAutoplayProgress(emblaApi, progressNode);
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
@@ -115,40 +116,58 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, tweenParallax, setTweenFactor, setTweenNodes]);
 
   return (
-    <div className="h-screen w-full relative">
-      <div className={clsx("embla", "absolute top-28")}>
+    <div className="h-screen w-full">
+      <div className={clsx("embla", "absolute top-12")}>
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">
             {slides.map((item) => (
               <div
-                className={clsx("embla__slide", "px-24 group/card group/text")}
+                className={clsx("embla__slide", "pt-16 px-16 relative group/card group/text")}
+                onMouseEnter={() => {
+                    hoverAutoplay();
+                }}
                 key={item.id}
               >
-                <div className="embla__parallax">
+                <div className="top-0 z-10 absolute w-[90%]">
+                    <h1 className="text-6xl text-wrap text-start ">{item.heading}</h1>
+                </div>
+                <div className="embla__parallax rounded-lg">
                   <div className={clsx("embla__parallax__layer")}>
                     <Image
                       className="embla__slide__img embla__parallax__img"
                       src={item.src}
-                      alt="Your alt text"
-                      width={50}
-                      height={50}
+                      alt={item.heading}
+                      width={100}
+                      height={70}
                       style={{ objectFit: "cover" }}
                     />
 
                     <div className="absolute w-full h-full top-0 left-0 transition duration-500 group-hover/card:bg-black opacity-60"></div>
 
                     <div
-                      className="absolute opacity-0 top-28 left-2 text-xl text-white
-        group-hover/text:opacity-[100%]
-        "
-                    >
+                      className="absolute opacity-0 top-28 left-2 text-xl text-white group-hover/text:opacity-[100%]">
                       {item.subHeading}
                     </div>
+
+
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Carousal Control */}
+          <div className="embla__controls">
+            <div
+              className={cn(
+                "embla__progress",
+                !showAutoplayProgress && "embla__progress--hidden"
+              )}
+            >
+              <div className="embla__progress__bar" ref={progressNode} />
+            </div>
+          </div>
+
         </div>
         <div className="embla__buttons">
           <button
