@@ -38,7 +38,7 @@ export const useAutoplayProgress = <ProgressElement extends HTMLElement>(
     });
 
     setShowAutoplayProgress(true);
-  }, []);
+  }, [progressNode]);
 
   useEffect(() => {
     const autoplay = emblaApi?.plugins()?.autoplay;
@@ -47,7 +47,7 @@ export const useAutoplayProgress = <ProgressElement extends HTMLElement>(
     emblaApi
       .on("autoplay:timerset", () => startProgress(autoplay.timeUntilNext()))
       .on("autoplay:timerstopped", () => setShowAutoplayProgress(false));
-  }, [emblaApi]);
+  }, [emblaApi, startProgress]);
 
   useEffect(() => {
     return () => {

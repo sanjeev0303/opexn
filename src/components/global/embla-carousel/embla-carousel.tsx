@@ -15,8 +15,6 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { usePrevNextButtons } from "./embla-carousel-arrow-buttons";
 import { useAutoplay } from "./embla-carousel-autoplay";
 import { useAutoplayProgress } from "./embla-carousel-autoplay-progress";
-import { motion } from "motion/react";
-import { div } from "motion/react-client";
 
 type PropType = {
   slides: {
@@ -49,7 +47,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   const { autoplayIsPlaying, toggleAutoplay, onAutoplayButtonClick } =
     useAutoplay(emblaApi);
 
-  const { showAutoplayProgress } = useAutoplayProgress(emblaApi, progressNode);
+  useAutoplayProgress(emblaApi, progressNode);
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
@@ -114,7 +112,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       .on("reInit", tweenParallax)
       .on("scroll", tweenParallax)
       .on("slideFocus", tweenParallax);
-  }, [emblaApi, tweenParallax]);
+  }, [emblaApi, tweenParallax, setTweenFactor, setTweenNodes]);
 
   return (
     <div className="h-screen w-full relative">
@@ -128,10 +126,13 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               >
                 <div className="embla__parallax">
                   <div className={clsx("embla__parallax__layer")}>
-                    <img
+                    <Image
                       className="embla__slide__img embla__parallax__img"
                       src={item.src}
                       alt="Your alt text"
+                      width={50}
+                      height={50}
+                      style={{ objectFit: "cover" }}
                     />
 
                     <div className="absolute w-full h-full top-0 left-0 transition duration-500 group-hover/card:bg-black opacity-60"></div>

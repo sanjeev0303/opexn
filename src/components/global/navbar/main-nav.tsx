@@ -2,10 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-
 import { siteLinks } from "@/config/site-links";
 import Image from "next/image";
 
@@ -17,7 +14,7 @@ export const MainNav = () => {
       <Link href="/" className="mr-4 flex items-center gap-2 lg:mr-6">
 
         <Image src="/images/opexn_logo.png" alt="Main logo" className="h-14 w-auto object-contain" width={40} height={35} />
-        
+
       </Link>
       <nav className="flex items-center gap-4 text-sm xl:gap-6">
         {siteLinks.mainNav.map(

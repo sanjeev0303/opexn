@@ -6,7 +6,6 @@ import { TwitterIcon } from "lucide-react";
 import { MainNav } from "./main-nav";
 import { MobileNav } from "./mobile-nav";
 import { ModeToggle } from "../mode-toggle";
-import { Separator } from "@/components/ui/separator";
 
 
 export const Navbar = () =>  {
