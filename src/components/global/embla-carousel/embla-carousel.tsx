@@ -116,16 +116,16 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, tweenParallax, setTweenFactor, setTweenNodes]);
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full bg-black">
       <div className={clsx("embla", "absolute top-12")}>
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">
             {slides.map((item) => (
               <div
-                className={clsx("embla__slide", "pt-16 px-16 relative group/card group/text")}
-                onMouseEnter={() => {
-                    hoverAutoplay();
-                }}
+                className={clsx("embla__slide", "lg:pt-16 max-md:flex-1 max-md:pt-36 lg:px-16 relative group/card group/text")}
+                // onMouseEnter={() => {
+                //     hoverAutoplay();
+                // }}
                 key={item.id}
               >
                 <div className="top-0 z-10 absolute w-[90%]">

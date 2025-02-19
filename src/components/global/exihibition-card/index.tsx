@@ -1,32 +1,29 @@
-import ShimmerButton from "@/components/ui/shimmer-button";
+"use client"
+
 import { EXHIBITIONS } from "@/config/exihibitions";
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
+import AnimatedCard from "../animated-card";
+import AnimatedTitle from "../animated-title";
+
+
 
 const ExihibitionCard = () => {
   return (
-    <div className="relative flex justify-center items-center flex-col overflow-hidden">
-      <h1 className="lg:text-6xl text-4xl font-bold">Exhibition Now</h1>
+     <div className='w-screen min-h-screen bg-slate-200 text-black'>
+        <div className=" flex justify-center items-center flex-col overflow-x-hidden">
+       <AnimatedTitle
+          title={`Exhibhtion Now`}
+          containerClass="mt-10 sm:mt-14 !text-black text-center"
+        />
       <div className="">
         {EXHIBITIONS.map((item) => (
           <div key={item.id}>
-            <div className="relative lg:px-24 lg:pt-16 p-5 border-white">
-              <Image
-                src={item.image}
-                alt="exhibition"
-                className="object-contain z-5 size-25 rounded-2xl"
-                width={1500}
-                height={500}
-              />
-
-              <ShimmerButton className="absolute z-10 bottom-[15%] left-1/2 -translate-x-1/2 dark:text-black">
-                <h3 className="font-semibold text-black">Enter Exihibition</h3>
-                <ArrowRight className="ml-1 text-black" />
-              </ShimmerButton>
-            </div>
+            <AnimatedCard
+            image={item.image}
+            />
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
