@@ -47,8 +47,6 @@ const SLIDES = [
 
 export const HeroSlider = () => {
   return (
-    // <WarpBackground beamDuration={3} perspective={100}>
       <EmblaCarousel slides={SLIDES} options={OPTIONS} />
-    // </WarpBackground>
   );
 };

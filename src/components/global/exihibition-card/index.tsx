@@ -14,7 +14,7 @@ const ExihibitionCard = () => {
           title={`Exhibhtion Now`}
           containerClass="mt-10 sm:mt-14 !text-black text-center"
         />
-      <div className="">
+      <div className="mt-10 mb-2 lg:mb-4 flex flex-col gap-8 lg:gap-y-10">
         {EXHIBITIONS.map((item) => (
           <div key={item.id}>
             <AnimatedCard

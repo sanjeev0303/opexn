@@ -128,7 +128,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 // }}
                 key={item.id}
               >
-                <div className="top-0 z-10 absolute w-[90%]">
+               <div className="px-5">
+               <div className="top-0 z-10 absolute w-[90%]">
                     <h1 className="text-6xl text-wrap text-start ">{item.heading}</h1>
                 </div>
                 <div className="embla__parallax rounded-lg">
@@ -152,6 +153,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
                   </div>
                 </div>
+               </div>
               </div>
             ))}
           </div>

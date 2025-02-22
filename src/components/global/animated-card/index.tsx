@@ -1,5 +1,6 @@
 "use client";
 
+import { Card } from "@/components/ui/card";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import gsap from "gsap";
 import { ArrowRight } from "lucide-react";
@@ -28,8 +29,8 @@ const AnimatedCard = ({ image }: Props) => {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((yPos - centerY) / centerY) * -5;
-    const rotateY = ((xPos - centerX) / centerX) * 5;
+    const rotateX = ((yPos - centerY) / centerY) * -1;
+    const rotateY = ((xPos - centerX) / centerX) * 1;
 
     gsap.to(element, {
       duration: 0.3,
@@ -54,33 +55,34 @@ const AnimatedCard = ({ image }: Props) => {
   };
 
   const handleClick = () => {
-    redirect("/sign-in")
+    redirect("/sign-in");
   };
 
   return (
-    <div className="lg:h-[80vh] lg:w-[90vw] relative sm:mt-3 lg:px-28 lg:pt-16 lg:p-5 mt-8 md:p-5 px-5">
-      <div>
-        <Image
-          ref={frameRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseLeave}
-          onMouseEnter={handleMouseLeave}
-          src={image}
-          alt="exhibition"
-          className="object-contain size-23 rounded-2xl"
-          width={1500}
-          height={500}
-        />
-      </div>
+    <Card
+      ref={frameRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseLeave}
+      onMouseEnter={handleMouseLeave}
+      className="border-none relative lg:h-[90vh] md:h-[70vh] md:w-[90vw] lg:w-[90vw] min-h-[35vh] min-w-[90vw] "
+    >
+      <Image
+        src={image}
+        alt="exhibition"
+        className="absolute object-cover w-full h-full rounded-lg size-30"
+        width={1500}
+        height={500}
+      />
 
-      <ShimmerButton className="absolute z-10 lg:bottom-10 md:bottom-8 left-1/2 -translate-x-1/2 dark:text-black"
-      onClick={handleClick}
+      <ShimmerButton
+        className="absolute z-10 left-1/2 -translate-x-1/2 bottom-4 md:bottom-8 lg:bottom-12"
+        onClick={handleClick}
       >
-        <h3 className="font-semibold text-black" >Enter Exihibition</h3>
+        <h3 className="font-semibold text-black">Enter Exihibition</h3>
         <ArrowRight className="ml-1 text-black" />
       </ShimmerButton>
-    </div>
+    </Card>
   );
 };
 

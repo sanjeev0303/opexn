@@ -80,7 +80,7 @@ body {
       }
 
       .animated-title {
-        @apply text-7xl uppercase leading-[.8];
+        @apply text-7xl  uppercase leading-[.8];
       }
 
       .animated-word {

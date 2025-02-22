@@ -42,7 +42,7 @@ const AnimatedTitle = ({ title, containerClass }: AnimatedTitleProps) => {
   }, []);
 
   return (
-    <div ref={containerRef} className={clsx("animated-title", containerClass)}>
+    <div ref={containerRef} className={clsx("lg:text-7xl text-4xl  uppercase leading-[.8]", containerClass)}>
       {title.split("<br />").map((line, index) => (
         <div key={index} className="flex gap-5">
           {line.split(" ").map((word, idx) => (
