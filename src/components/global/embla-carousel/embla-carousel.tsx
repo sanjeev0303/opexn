@@ -130,7 +130,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               >
                <div className="px-5">
                <div className="top-0 z-10 absolute w-[90%]">
-                    <h1 className="text-6xl text-wrap text-start ">{item.heading}</h1>
+                    <h1 className="lg:text-6xl md:text-6xl leading-[0.9]  text-6xl text-wrap text-start ">{item.heading}</h1>
                 </div>
                 <div className="embla__parallax rounded-lg">
                   <div className={clsx("embla__parallax__layer")}>
@@ -146,7 +146,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                     <div className="absolute w-full h-full top-0 left-0 transition duration-500 group-hover/card:bg-black opacity-60"></div>
 
                     <div
-                      className="absolute opacity-0 top-28 left-2 text-xl text-white group-hover/text:opacity-[100%]">
+                      className="absolute opacity-0 lg:top-28 bottom-[260px] left-2 text-xl text-white group-hover/text:opacity-[100%]">
                       {item.subHeading}
                     </div>
 
